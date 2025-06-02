@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Registration from './Registration';
 
 const LoginContainer = styled.div`
   min-height: 100vh;
@@ -144,6 +145,17 @@ const Button = styled.button`
   }
 `;
 
+const RegisterButton = styled(Button)`
+  background: transparent;
+  border: 2px solid #ffd700;
+  color: #ffd700;
+  margin-top: 10px;
+
+  &:hover {
+    background: rgba(255, 215, 0, 0.1);
+  }
+`;
+
 const ForgotPassword = styled.a`
   color: #ffd700;
   text-align: center;
@@ -181,41 +193,57 @@ const DealerImage = styled.div`
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showRegistration, setShowRegistration] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt with:', { username, password });
   };
 
+  const handleRegister = () => {
+    setShowRegistration(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setShowRegistration(false);
+  };
+
   return (
     <LoginContainer>
       <DealerImage />
       <LoginCard>
-        <Title>FREEPLAY CASINO</Title>
-        <Form onSubmit={handleSubmit}>
-          <InputWrapper>
-            <Icon className="fas fa-user" />
-            <Input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Icon className="fas fa-lock" />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </InputWrapper>
-          <Button type="submit">Login</Button>
-          <ForgotPassword href="#">Forgot Password?</ForgotPassword>
-        </Form>
+        <Title>MAX WIN CASINO</Title>
+        {showRegistration ? (
+          <Registration onSwitchToLogin={handleSwitchToLogin} />
+        ) : (
+          <Form onSubmit={handleSubmit}>
+            <InputWrapper>
+              <Icon className="fas fa-user" />
+              <Input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <Icon className="fas fa-lock" />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </InputWrapper>
+            <Button type="submit">Login</Button>
+            <RegisterButton type="button" onClick={handleRegister}>
+              Register
+            </RegisterButton>
+            <ForgotPassword href="#">Forgot Password?</ForgotPassword>
+          </Form>
+        )}
       </LoginCard>
     </LoginContainer>
   );
